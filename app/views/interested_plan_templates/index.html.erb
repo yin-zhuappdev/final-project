@@ -7,13 +7,12 @@
     <a href="/interested_plans/new" class="btn btn-block btn-outline-secondary">
       Add a new interested plan
     </a>
+    <p></p>
+    <p style="color:dimgray">
+      The annual estimated premium uses base premium and is adjusted for your age and smoker status.
+    </p>
   </div>
-</div>
 
-
-<hr>
-
-<div class="row mb-3">
   <div class="col-md-12">
     <table class="table">
       <tr>
@@ -30,11 +29,11 @@
         </th>
 
         <th>
-          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Base Premium</button>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Annual base premium</button>
         </th>
 
         <th>
-          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Estimated Premium</button>
+          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Annual est. premium</button>
         </th>
 
         <th>
@@ -51,23 +50,22 @@
           </td>
 
           <td>
-            <%= interested_plan.coinsurance_paid_by_patient %>
-            %
+            <%= number_to_percentage(interested_plan.coinsurance_paid_by_patient, precision:1) %>
           </td>
 
           <td>
-            $<%= interested_plan.deductible%>
+            <%= number_to_currency(interested_plan.deductible, precision:1)%>
           </td>
 
           <td>
-            $<%= interested_plan.monthly_premium %>
+            <%= number_to_currency(interested_plan.monthly_premium*12, precision:1) %>
           </td>
 
           <td>
             <% user_age = Date.today.year - current_user.birthday.year %>
             <% age_penalty = @penalty_table[:CA][:age][user_age]%>
             <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
-            $<%= interested_plan.monthly_premium*age_penalty*smoker_penalty %>
+            <%= number_to_currency(interested_plan.monthly_premium*age_penalty*smoker_penalty*12, precision:1) %>
           </td>
 
           <td>
@@ -84,3 +82,6 @@
     </table>
   </div>
 </div>
+
+
+<hr>

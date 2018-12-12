@@ -3,8 +3,9 @@
     <h1>
       Compare Interested Plans
     </h1>
+    <p></p>
 
-    <h5 style="color:dimgray;">
+    <h5 style="color:dimgray">
       <p>
         Based on the number you entered in your profile page, your estimated total medical expense is <%= number_to_currency(current_user.estimated_cost, precision: 1) %>.
       </p>
@@ -13,10 +14,37 @@
 
       <p>
         <!-- NTD do calculation to figure out what is the best plan-->
-        The best plan for your situation is United Plan 1
+        <% best_plan =current_user.interested_plans.first %>
+        <% lowest_total_cost = 999999999999999%>
+
+        <% current_user.interested_plans.each do |interested_plan| %>
+
+          <% user_age = Date.today.year - current_user.birthday.year %>
+          <% age_penalty = @penalty_table[:CA][:age][user_age]%>
+          <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
+          <% estimated_premium = interested_plan.monthly_premium*age_penalty*smoker_penalty %>
+          <% total_expense = estimated_premium.*12 %>
+          <% if current_user.estimated_cost > interested_plan.deductible %>
+            <% total_expense = total_expense + interested_plan.deductible + (current_user.estimated_cost - interested_plan.deductible)*interested_plan.coinsurance_paid_by_patient/100 %>
+          <% else %>
+            <% total_expense = total_expense + current_user.estimated_cost %>
+          <% end %>
+
+          <% if total_expense < lowest_total_cost %>
+            <% lowest_total_cost = total_expense %>
+            <% best_plan = interested_plan %>
+          <% end %>
+
+        <% end %>
+        The best plan for your situation is: 
+        <a href="/insurance_plans/<%= best_plan.id %>">
+          <span style="color:mediumvioletred"><%= best_plan.plan_name %></span>
+        </a>
+        for a total payment of <%= number_to_currency(lowest_total_cost, precision:1) %>
       </p>
 
-      <p></p>
+      <br></br>
+
     </h5>
 
     <h6 style="color:dimgray">
@@ -43,15 +71,15 @@
         </th>
 
         <th>
-          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Base Premium</button>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Annual base premium</button>
         </th>
 
         <th>
-          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Estimated Premium</button>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Annual adj. premium</button>
         </th>
 
         <th>
-          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Your total annual payment including out-of-pocket payment plus your estimated premium" data-content="">Estimated total payment</button>
+          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Your total annual payment including out-of-pocket payment plus your estimated premium" data-content="">Annual est. total expense</button>
         </th>
 
         <th>
@@ -68,26 +96,33 @@
           </td>
 
           <td>
-            <%= interested_plan.coinsurance_paid_by_patient %>
-            %
+            <%= number_to_percentage(interested_plan.coinsurance_paid_by_patient, precision:1) %>
           </td>
 
           <td>
-            $<%= interested_plan.deductible%>
+            <%= number_to_currency(interested_plan.deductible, precision:1)%>
           </td>
 
           <td>
-            $<%= interested_plan.monthly_premium %>
+            <%= number_to_currency(interested_plan.monthly_premium*12, precision:1) %>
           </td>
 
           <td>
             <% user_age = Date.today.year - current_user.birthday.year %>
             <% age_penalty = @penalty_table[:CA][:age][user_age]%>
             <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
-            $<%= interested_plan.monthly_premium*age_penalty*smoker_penalty %>
+            <% estimated_premium = interested_plan.monthly_premium*age_penalty*smoker_penalty %>
+            <%= number_to_currency(estimated_premium*12, precision:1) %>
           </td>
 
           <td>
+            <% total_expense = estimated_premium.*12 %>
+            <% if current_user.estimated_cost > interested_plan.deductible %>
+              <% total_expense = total_expense + interested_plan.deductible + (current_user.estimated_cost - interested_plan.deductible)*interested_plan.coinsurance_paid_by_patient/100 %>
+            <% else %>
+              <% total_expense = total_expense + current_user.estimated_cost %>
+            <% end %>
+            <%= number_to_currency(total_expense, precision:1) %>
 
           </td>
         </tr>

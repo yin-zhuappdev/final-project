@@ -29,7 +29,7 @@ class InsurancePlansController < ApplicationController
     if @insurance_plan.valid?
       @insurance_plan.save
 
-      redirect_back(:fallback_location => "/insurance_plans", :notice => "Insurance plan created successfully.")
+      redirect_to("/insurance_plans",  :notice => "Insurance plan created successfully.")
     else
       render("insurance_plan_templates/new_form_with_errors.html.erb")
     end

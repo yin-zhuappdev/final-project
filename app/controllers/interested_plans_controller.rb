@@ -26,7 +26,7 @@ class InterestedPlansController < ApplicationController
     if @interested_plan.valid?
       @interested_plan.save
 
-      redirect_back(:fallback_location => "/interested_plans", :notice => "Interested plan created successfully.")
+      redirect_to("/interested_plans", :notice => "Interested plan created successfully.")
     else
       render("interested_plan_templates/new_form_with_errors.html.erb")
     end

@@ -8,6 +8,7 @@
       Add a new insurance plan
     </a>
   </div>
+
 </div>
 
 <hr>
@@ -30,12 +31,9 @@
         </th>
 
         <th>
-          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Base Premium</button>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Annual base premium</button>
         </th>
 
-        <th>
-          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Estimated Premium</button>
-        </th>
 
         <th>
         </th>
@@ -60,15 +58,9 @@
           </td>
 
           <td>
-            <%= number_to_currency(insurance_plan.monthly_premium, precision: 1) %>
+            <%= number_to_currency(insurance_plan.monthly_premium*12, precision: 1) %>
           </td>
 
-          <td>
-            <% user_age = Date.today.year - current_user.birthday.year %>
-            <% age_penalty = @penalty_table[:CA][:age][user_age]%>
-            <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
-            <%= number_to_currency(insurance_plan.monthly_premium*age_penalty*smoker_penalty, precision: 1) %>
-          </td>
 
           <td>
             <% id_list =[] %>
