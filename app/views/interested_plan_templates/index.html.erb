@@ -1,0 +1,86 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      My interested plans
+    </h1>
+
+    <a href="/interested_plans/new" class="btn btn-block btn-outline-secondary">
+      Add a new interested plan
+    </a>
+  </div>
+</div>
+
+
+<hr>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" title="Health insurance plan name" data-content="">Plan Name</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="co-insurance is the % of medical expense you need to pay out-of-pocket" data-content="">Co-insurance %</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="deductible is the total amount you have to pay before insurance starts to pay for your medical expenses" data-content="">Annual deductible</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Base Premium</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Estimated Premium</button>
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% current_user.interested_plans.each do |interested_plan| %>
+        <tr>
+
+          <td>
+            <a href="/insurance_plans/<%= interested_plan.id %>">
+              <%= interested_plan.plan_name %>
+            </a>
+          </td>
+
+          <td>
+            <%= interested_plan.coinsurance_paid_by_patient %>
+            %
+          </td>
+
+          <td>
+            $<%= interested_plan.deductible%>
+          </td>
+
+          <td>
+            $<%= interested_plan.monthly_premium %>
+          </td>
+
+          <td>
+            <% user_age = Date.today.year - current_user.birthday.year %>
+            <% age_penalty = @penalty_table[:CA][:age][user_age]%>
+            <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
+            $<%= interested_plan.monthly_premium*age_penalty*smoker_penalty %>
+          </td>
+
+          <td>
+            <% interested_plan.user_plans.each do |liked_plan| %>
+              <% if liked_plan.user_id == current_user.id %>
+                <a href="/delete_interested_plan/<%= liked_plan.id %>" class="btn btn-link pull-right">
+                  <i class="fas fa-heart"></i> Unlike
+                </a>
+              <% end %>
+            <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+</div>

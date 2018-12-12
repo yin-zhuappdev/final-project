@@ -1,0 +1,31 @@
+<h1>
+  Add a new interested plan
+</h1>
+
+
+<hr>
+
+<form action="/create_interested_plan" method="post">
+  <div class="form-group">
+    <label for="insurance_plan_id">
+      Insurance plan
+    </label>
+
+
+    <!--Develope an array of insurance plans that the user hasn't liked yet. If the array is empty message please add a new plan else allow the user to select from existing unliked insurances -->
+
+    <%= select_tag("insurance_plan_id", options_from_collection_for_select(InsurancePlan.all, :id, :plan_name, 1), :class => "form-control") %>
+
+    <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+    <button class="btn btn-block btn-outline-secondary">
+      Create interested plan
+    </button>
+  </form>
+
+
+  <hr>
+
+  <a href="/interested_plans">
+    Go back
+  </a>

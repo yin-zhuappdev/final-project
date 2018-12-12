@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      Insurance Plan Finder
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsible-nav-links" aria-controls="collapsible-nav-links" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapsible-nav-links">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href="/insurance_plans">
+            <i class="fas fa-users"></i>
+            <span class="hidden-sm">All Plans</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/interested_plans">
+            <i class="fas fa-images"></i>
+            <span class="hidden-sm">My Interested Plans</span></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/compare_interested_plans">
+            <i class="fas fa-images"></i>
+            <span class="hidden-sm">Compare Interested Plans</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <% if current_user.blank? %>
+          <li class="nav-item">
+            <a href="/users/sign_in" class="nav-link">
+              Login
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/users/sign_up" class="nav-link">
+              Create account
+            </a>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <a href="/users/edit" class="nav-link">
+              Edit profile
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="/users/sign_out" data-method="delete" class="nav-link">
+              Sign out
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    <!-- .navbar-collapse -->
+  </div>
+  <!-- .container -->
+</nav>

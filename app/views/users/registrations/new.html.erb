@@ -1,0 +1,213 @@
+<div class="row">
+  <div class="offset-md-3 col-md-6">
+    <div class="card mb-3">
+      <h5 class="card-header">
+        <%= resource_name != "user" ? resource_name.to_s.titleize : "" %> Sign Up
+      </h5>
+
+      <div class="card-body">
+        <% was_validated = resource.errors.any? %>
+
+        <% form_html_options = { novalidate: true, class: "mb-3" } %>
+
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: form_html_options) do |f| %>
+          <div class="form-group">
+            <% email_was_invalid = resource.errors.include?(:email) %>
+
+            <% email_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if email_was_invalid %>
+                <% email_class << " is-invalid" %>
+              <% else %>
+                <% email_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :email %>
+
+            <%= f.email_field :email, class: email_class, autofocus: true %>
+
+            <% if email_was_invalid %>
+              <% resource.errors.full_messages_for(:email).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="form-group">
+            <% password_was_invalid = resource.errors.include?(:password) %>
+
+            <% password_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if password_was_invalid %>
+                <% password_class << " is-invalid" %>
+              <% else %>
+                <% password_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :password %>
+
+            <%= f.password_field :password, class: password_class %>
+
+            <% if password_was_invalid %>
+              <% resource.errors.full_messages_for(:password).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="form-group">
+            <% password_confirmation_was_invalid = resource.errors.include?(:password_confirmation) %>
+
+            <% password_confirmation_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if password_confirmation_was_invalid %>
+                <% password_confirmation_class << " is-invalid" %>
+              <% else %>
+                <% password_confirmation_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :password_confirmation %>
+
+            <%= f.password_field :password_confirmation, class: password_confirmation_class %>
+
+            <% if password_confirmation_was_invalid %>
+              <% resource.errors.full_messages_for(:password_confirmation).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+
+          <!-- Devise Input for user_name start -->
+          <div class="form-group">
+            <% user_name_was_invalid = resource.errors.include?(:user_name) %>
+
+            <% user_name_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if user_name_was_invalid %>
+                <% user_name_class << " is-invalid" %>
+              <% else %>
+                <% user_name_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :user_name %>
+
+            <%= f.text_field :user_name, :class => user_name_class, :placeholder => "Enter user name" %>
+
+            <% if user_name_was_invalid %>
+              <% resource.errors.full_messages_for(:user_name).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <!-- Devise Input for user_name end -->
+
+          <!-- Devise Input for birthday start -->
+          <div class="form-group">
+            <% birthday_was_invalid = resource.errors.include?(:birthday) %>
+
+            <% birthday_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if birthday_was_invalid %>
+                <% birthday_class << " is-invalid" %>
+              <% else %>
+                <% birthday_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :birthday %>
+
+            <%= f.date_select :birthday, :start_year => 1940, :end_year => 1998, class: "#{birthday_class} col-sm-2" %>
+
+            <% if birthday_was_invalid %>
+              <% resource.errors.full_messages_for(:birthday).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <!-- Devise Input for birthday end -->
+
+          <!-- Devise Input for state start -->
+          <div class="form-group">
+            <% state_was_invalid = resource.errors.include?(:state) %>
+
+            <% state_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if state_was_invalid %>
+                <% state_class << " is-invalid" %>
+              <% else %>
+                <% state_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <% f.label :state %>
+            Choose your State            
+            <%= f.select :state, options_for_select(us_states), :placeholder => "Choose your state" %>
+
+            <% if state_was_invalid %>
+              <% resource.errors.full_messages_for(:state).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <!-- Devise Input for state end -->
+
+          <!-- Devise Input for tobacco_use start -->
+          <div class="form-group">
+            <% tobacco_use_was_invalid = resource.errors.include?(:tobacco_use) %>
+
+            <% tobacco_use_class = "form-control" %>
+
+            <% if was_validated %>
+              <% if tobacco_use_was_invalid %>
+                <% tobacco_use_class << " is-invalid" %>
+              <% else %>
+                <% tobacco_use_class << " is-valid" %>
+              <% end %>
+            <% end %>
+
+            <%= f.label :tobacco_use %>
+
+            <%= f.check_box :tobacco_use, class: "#{tobacco_use_class} col-sm-2" %>
+
+            <% if tobacco_use_was_invalid %>
+              <% resource.errors.full_messages_for(:tobacco_use).each do |message| %>
+                <div class="invalid-feedback d-flex">
+                  <%= message %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <!-- Devise Input for tobacco_use end -->
+          <%= f.button class: "btn btn-outline-primary btn-block" %>
+
+          <hr>
+
+          <%= render "users/shared/links" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

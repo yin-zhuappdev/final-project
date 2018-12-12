@@ -1,0 +1,42 @@
+<% if @interested_plan.errors.any? %>
+  <% @interested_plan.errors.full_messages.each do |message| %>
+    <div class="alert">
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<h1>
+  Edit interested plan #<%= @interested_plan.id %>
+</h1>
+
+<hr>
+
+<form action="/update_interested_plan/<%= @interested_plan.id %>" method="post">
+
+  <div class="form-group">
+    <label for="insurance_plan_id">
+      Insurance plan
+    </label>
+
+    <input type="text" id="insurance_plan_id" name="insurance_plan_id" class="form-control" value="<%= @interested_plan.insurance_plan_id %>">
+  </div>
+
+  <div class="form-group">
+    <label for="user_id">
+      User
+    </label>
+
+    <input type="text" id="user_id" name="user_id" class="form-control" value="<%= @interested_plan.user_id %>">
+  </div>
+
+  <button class="btn btn-block btn-outline-secondary">
+    Update interested plan
+  </button>
+</form>
+
+<hr>
+
+<a href="/interested_plans">
+  Go back
+</a>

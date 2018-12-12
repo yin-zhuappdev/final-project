@@ -1,0 +1,58 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      Interested plan #<%= @interested_plan.id %> details
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/interested_plans" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/interested_plans/<%= @interested_plan.id %>/edit" class="btn btn-block btn-outline-secondary">
+          Edit interested plan
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_interested_plan/<%= @interested_plan.id %>" class="btn btn-block btn-outline-secondary">
+          Delete interested plan
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Insurance plan
+      </dt>
+      <dd>
+        <%= @interested_plan.insurance_plan_id %>
+      </dd>
+
+      <dt>
+        User
+      </dt>
+      <dd>
+        <%= @interested_plan.user_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@interested_plan.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@interested_plan.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+

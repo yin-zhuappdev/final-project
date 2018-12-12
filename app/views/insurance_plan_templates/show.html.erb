@@ -1,0 +1,52 @@
+<div class="row mb-3">
+  <div class="col-md-8 offset-md-2">
+    <h1>
+      <%= @insurance_plan.plan_name %>
+    </h1>
+
+    <div class="row mb-3">
+      <div class="col">
+        <a href="/insurance_plans" class="btn btn-block btn-outline-secondary">
+          Go back
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/insurance_plans/<%= @insurance_plan.id %>/edit" class="btn btn-block btn-outline-secondary">
+          Edit insurance plan
+        </a>
+      </div>
+
+      <div class="col">
+        <a href="/delete_insurance_plan/<%= @insurance_plan.id %>" class="btn btn-block btn-outline-secondary">
+          Delete insurance plan
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Coinsurance paid by patient
+      </dt>
+      <dd>
+        <%= @insurance_plan.coinsurance_paid_by_patient %>%
+      </dd>
+
+      <dt>
+        Deductible
+      </dt>
+      <dd>
+        $<%= @insurance_plan.deductible %>
+      </dd>
+
+      <dt>
+        Monthly premium
+      </dt>
+      <dd>
+        $<%= @insurance_plan.monthly_premium %>
+      </dd>
+
+    </dl>
+  </div>
+</div>
+

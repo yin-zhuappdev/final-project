@@ -1,0 +1,104 @@
+<div class="row mb-3">
+  <div class="col-md-12">
+    <h1>
+      All insurance plans available to me
+    </h1>
+
+    <a href="/insurance_plans/new" class="btn btn-block btn-outline-secondary">
+      Add a new insurance plan
+    </a>
+  </div>
+</div>
+
+<hr>
+
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" title="Health insurance plan name" data-content="">Plan Name</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="co-insurance is the % of medical expense you need to pay out-of-pocket" data-content="">Co-insurance %</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="deductible is the total amount you have to pay before insurance starts to pay for your medical expenses" data-content="">Annual deductible</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Base Premium</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Estimated Premium</button>
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% @insurance_plans.each do |insurance_plan| %>
+        <tr>
+
+          <td>
+            <a href="/insurance_plans/<%= insurance_plan.id %>">
+              <%= insurance_plan.plan_name %>
+            </a>
+          </td>
+
+          <td>
+            <%= insurance_plan.coinsurance_paid_by_patient %>
+          %
+          </td>
+
+          <td>
+            $<%= insurance_plan.deductible%>
+          </td>
+
+          <td>
+            $<%= insurance_plan.monthly_premium %>
+          </td>
+
+          <td>
+            <% user_age = Date.today.year - current_user.birthday.year %>
+            <% age_penalty = @penalty_table[:CA][:age][user_age]%>
+            <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
+            $<%= insurance_plan.monthly_premium*age_penalty*smoker_penalty %>
+          </td>
+
+          <td>
+            <% id_list =[] %>
+            <% insurance_plan.user_plans.each do |liked_plan| %>
+              <% id_list.push (liked_plan.user_id) %>
+            <% end %>
+            <% if id_list.include? current_user.id %>
+              <% insurance_plan.user_plans.each do |liked_plan| %>
+                <% if liked_plan.user_id == current_user.id %>
+                  <a href="/delete_interested_plan/<%= liked_plan.id %>" class="btn btn-link pull-right">
+                    <i class="fas fa-heart"></i> Unlike
+                  </a>
+                <% end %>
+              <% end %>
+
+            <% else %>
+              <form action="/create_interested_plan" method="post">
+                <input type="hidden" name="insurance_plan_id" value="<%= insurance_plan.id %>">
+                <input type="hidden" name="user_id" value="<%= current_user.id %>">
+                <button class="btn btn-link pull-right">
+                  <i class="far fa-heart"></i>
+                  Like
+                </button>
+              </form>
+            <% end %>
+
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+</hr>
