@@ -14,6 +14,7 @@
 #  tobacco_use            :boolean
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  estimated_cost         :integer
 #
 # Indexes
 #

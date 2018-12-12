@@ -51,23 +51,23 @@
           </td>
 
           <td>
-            <%= insurance_plan.coinsurance_paid_by_patient %>
-          %
+            <%= number_to_percentage(insurance_plan.coinsurance_paid_by_patient, precision: 1) %>
+          
           </td>
 
           <td>
-            $<%= insurance_plan.deductible%>
+            <%= number_to_currency(insurance_plan.deductible, precision: 1)%>
           </td>
 
           <td>
-            $<%= insurance_plan.monthly_premium %>
+            <%= number_to_currency(insurance_plan.monthly_premium, precision: 1) %>
           </td>
 
           <td>
             <% user_age = Date.today.year - current_user.birthday.year %>
             <% age_penalty = @penalty_table[:CA][:age][user_age]%>
             <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
-            $<%= insurance_plan.monthly_premium*age_penalty*smoker_penalty %>
+            <%= number_to_currency(insurance_plan.monthly_premium*age_penalty*smoker_penalty, precision: 1) %>
           </td>
 
           <td>

@@ -8,4 +8,5 @@ class UsersController < ApplicationController
     @user = User.find(params.fetch("id"))
     render("users/show.html.erb")
   end
+  
 end

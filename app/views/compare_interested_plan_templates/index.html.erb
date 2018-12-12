@@ -1,9 +1,100 @@
 <div class="row mb-3">
   <div class="col-md-12">
     <h1>
-      Compare Insurance Plans
+      Compare Interested Plans
     </h1>
 
+    <h5 style="color:dimgray;">
+      <p>
+        Based on the number you entered in your profile page, your estimated total medical expense is <%= number_to_currency(current_user.estimated_cost, precision: 1) %>.
+      </p>
+
+      <p></p>
+
+      <p>
+        <!-- NTD do calculation to figure out what is the best plan-->
+        The best plan for your situation is United Plan 1
+      </p>
+
+      <p></p>
+    </h5>
+
+    <h6 style="color:dimgray">
+      For the year you may pay the following for each plan:
+    </h6>
 
   </div>
 </div>
+
+<div class="row mb-3">
+  <div class="col-md-12">
+    <table class="table">
+      <tr>
+        <th>
+          <button type="button" class="btn btn-lg btn-primary" data-toggle="popover" title="Health insurance plan name" data-content="">Plan Name</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="co-insurance is the % of medical expense you need to pay out-of-pocket" data-content="">Co-insurance %</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="deductible is the total amount you have to pay before insurance starts to pay for your medical expenses" data-content="">Annual deductible</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="base premium is the lowest premium paid by anyone buying the plan" data-content="">Base Premium</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-secondary" data-toggle="popover" title="Adjusted premium based on your age and tobbaco use" data-content="">Estimated Premium</button>
+        </th>
+
+        <th>
+          <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Your total annual payment including out-of-pocket payment plus your estimated premium" data-content="">Estimated total payment</button>
+        </th>
+
+        <th>
+        </th>
+      </tr>
+
+      <% current_user.interested_plans.each do |interested_plan| %>
+        <tr>
+
+          <td>
+            <a href="/insurance_plans/<%= interested_plan.id %>">
+              <%= interested_plan.plan_name %>
+            </a>
+          </td>
+
+          <td>
+            <%= interested_plan.coinsurance_paid_by_patient %>
+            %
+          </td>
+
+          <td>
+            $<%= interested_plan.deductible%>
+          </td>
+
+          <td>
+            $<%= interested_plan.monthly_premium %>
+          </td>
+
+          <td>
+            <% user_age = Date.today.year - current_user.birthday.year %>
+            <% age_penalty = @penalty_table[:CA][:age][user_age]%>
+            <% smoker_penalty = @penalty_table[:CA][:smoker][current_user.tobacco_use]%>
+            $<%= interested_plan.monthly_premium*age_penalty*smoker_penalty %>
+          </td>
+
+          <td>
+
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+
+<a href="/users/edit" class="card-link">Revise estimated total medical expense</a>
+<a href="/insurance_plans" class="card-link">Look for more plans</a>
