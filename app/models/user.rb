@@ -29,6 +29,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   validates :user_name, presence: true, uniqueness: true
+  validates :birthday, presence: true
+  validates :state, presence: true
+  validates :tobacco_use, presence: true
+  validates :estimated_cost, presence: true
   has_many :user_plans, :class_name => "InterestedPlan", :dependent => :destroy
   has_many :interested_plans, :through => :user_plans, :source => :insurance_plan
 end

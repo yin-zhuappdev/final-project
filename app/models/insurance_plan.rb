@@ -14,6 +14,10 @@
 #
 
 class InsurancePlan < ApplicationRecord
-  has_many :user_plans, :class_name => "InterestedPlan", :dependent => :destroy
+  validates :coinsurance_paid_by_patient, presence: true 
+  validates :deductible, presence: true
+  validates :monthly_premium, presence: true
+  validates :plan_name, presence: true
+    has_many :user_plans, :class_name => "InterestedPlan", :dependent => :destroy
   has_many :applicants, :through => :user_plans, :source => :user
 end

@@ -47,13 +47,13 @@
         <% else %>
           <li class="nav-item">
             <a href="/users/edit" class="nav-link">
-              Edit profile
+              <i class="fas fa-edit" font-family: "serif"><%= current_user.user_name %></i>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="/users/sign_out" data-method="delete" class="nav-link">
-              Sign out
+              <i class="fas fa-sign-out-alt">Sign out</i>
             </a>
           </li>
         <% end %>
