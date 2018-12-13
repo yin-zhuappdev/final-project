@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181212002418) do
+ActiveRecord::Schema.define(version: 20181213164048) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -48,10 +48,8 @@ ActiveRecord::Schema.define(version: 20181212002418) do
     t.float "deductible"
     t.float "monthly_premium"
     t.string "plan_name"
-    t.integer "age_group"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "smoker_status"
   end
 
   create_table "interested_plans", force: :cascade do |t|
